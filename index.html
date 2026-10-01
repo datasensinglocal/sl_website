@@ -297,6 +297,7 @@ p { margin: 0; }
 }
 #explore .explore a:hover, #explore .explore a:focus-visible { translate: 0 -4px; box-shadow: 0 12px 28px rgba(39, 38, 38, .10); filter: brightness(.97); }
 .explore a .go { align-self: end; }
+#explore .explore .pill { font-size: 18px; padding: 13px 26px; }   /* Our projects / initiatives / products */
 .explore a .go svg { display: block; width: 40px; height: auto; }
 .explore-head .ic-bold { width: 1.28em; height: auto; margin-left: .15em; }
 @media (max-width: 760px) { .explore { grid-template-columns: 1fr; } }
@@ -912,7 +913,7 @@ section:has(> .news) { --band: var(--alab-light); }
 
 <section class="container section mission">
   <p>We work with <span class="ul">active citizens, local governments, and city organisations</span> to deliver city systems designed for scale, speed, and plurality.</p>
-  <p class="mission-how">Blending participatory planning + civic tech</p>
+  <p class="mission-how">Blending participatory<br>planning + civic tech</p>
 </section>
 
 <section class="container section-tight" id="explore">
@@ -2517,10 +2518,13 @@ The project was an investigation into how spatial re-organisation of the snan gh
 
   // split a heading into word spans so words can animate one by one
   const splitWords = (el, inner) => {
-    const words = el.textContent.trim().split(/\s+/);
-    el.setAttribute("aria-label", el.textContent.trim());
-    el.innerHTML = words.map((w, i) =>
-      `<span class="w" aria-hidden="true" style="--i:${i}">${inner ? `<span>${w}</span>` : w}</span>`).join(" ");
+    el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
+    let i = 0;   // keeps any <br> line breaks written in the page
+    el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map(part => {
+      const tmp = document.createElement("div"); tmp.innerHTML = part;
+      return tmp.textContent.trim().split(/\s+/).filter(Boolean).map(w =>
+        `<span class="w" aria-hidden="true" style="--i:${i++}">${inner ? `<span>${w}</span>` : w}</span>`).join(" ");
+    }).join("<br>");
   };
 
   // 1 · hero headline on load
