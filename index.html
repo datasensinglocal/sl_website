@@ -192,7 +192,7 @@ p { margin: 0; }
 
 /* 1 · hero headline: words rise in from under a mask, one after another */
 .anim .hero-line .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
-.anim .hero-line .w > span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease-out); transition-delay: calc(var(--i) * 70ms + 150ms); }
+.anim .hero-line .w > span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease-out); transition-delay: var(--d, calc(var(--i) * 70ms + 150ms)); }
 .anim .hero-line.in .w > span { transform: none; }
 
 /* 2 · slideshow: caption lifts in each time a slide becomes active */
@@ -2501,6 +2501,13 @@ The project was an investigation into how spatial re-organisation of the snan gh
   // 1 · hero headline on load
   const hero = document.querySelector(".hero-line");
   splitWords(hero, true);
+  // two beats: "Making cities work" first, then a pause, then "for everyone."
+  const hw = [...hero.querySelectorAll(".w")];
+  const brk = hw.findIndex(w => w.textContent.trim().toLowerCase() === "for");
+  hw.forEach((w, i) => {
+    const second = brk > 0 && i >= brk;
+    w.style.setProperty("--d", (second ? 150 + brk * 90 + 650 + (i - brk) * 90 : 150 + i * 90) + "ms");
+  });
   requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add("in")));
 
   // 4 · method line, word by word
