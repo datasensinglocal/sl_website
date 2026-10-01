@@ -227,6 +227,11 @@ p { margin: 0; }
 /* side space on large screens: 110px at 1440, 160px from 1500 (content then stays 1180px wide and centres) */
 @media (min-width: 1440px) { :root { --max: none; --gutter: 110px; } }
 @media (min-width: 1500px) { :root { --max: 1500px; --gutter: 160px; } }
+
+/* Reduce motion: same reveals, fades only (no rising, sliding or lifting) */
+.anim.calm [data-reveal], .anim.calm .mission-how .w, .anim.calm .slide figcaption h2, .anim.calm .slide figcaption p { transform: none !important; }
+.anim.calm .hero-line .w > span { transform: none !important; opacity: 0; transition: opacity 1s ease; transition-delay: var(--d, calc(var(--i) * 70ms + 150ms)); }
+.anim.calm .hero-line.in .w > span { opacity: 1; }
 </style>
 <style>
 .hero { padding-top: max(16px, calc(clamp(40px, 6vw, 72px) - 30px)); padding-bottom: clamp(20px, 2.8vw, 36px); }
@@ -2511,9 +2516,10 @@ The project was an investigation into how spatial re-organisation of the snan gh
 // ---------- home page motion: staggered reveals as sections scroll in
 (() => {
   if (!document.querySelector(".hero-line")) return;               // home page only
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   if (!("IntersectionObserver" in window)) return;
   document.documentElement.classList.add("anim");
+  // "Reduce motion" on: keep the reveals as gentle fades, without any movement
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("calm");
   const root = document.querySelector(".hero-line").closest(".spa-page") || document;   // single-file site: only the home page
 
   // split a heading into word spans so words can animate one by one
