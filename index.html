@@ -260,7 +260,7 @@ p { margin: 0; }
 .hero h1.hero-line > .he, .hero h1.hero-line > .he-wrap { display: block; }
 
 /* "Blending participatory planning + civic tech" in the same berry as "for everyone." */
-.mission p.mission-how.mission-how { color: #9c4f7a; }
+.mission p.mission-how.mission-how { color: var(--grape); }
 </style>
 <style>
 .hero { padding-top: max(16px, calc(clamp(40px, 6vw, 72px) - 30px)); padding-bottom: clamp(20px, 2.8vw, 36px); }
@@ -991,6 +991,36 @@ section:has(> .news) { --band: #ffffff; }
 #explore .theme-link[aria-expanded="true"]::after { background: #9e507b; }
 #explore .themes li span { font-weight: 500; }
 #explore .tband-head p { color: #9e507b; }
+
+/* ---- themes as tabs: Linen light strip, selected theme is a white tab that opens into a white spotlight panel; Grape only */
+#explore .theme-link[aria-expanded="true"] { background: #ffffff; color: var(--grape); box-shadow: none; border-radius: 12px 12px 0 0; margin-bottom: -10px; padding-bottom: 24px; height: calc(100% + 10px); }
+#explore .theme-link[aria-expanded="true"] span { color: var(--grape); font-weight: 600; }
+#explore .theme-link[aria-expanded="true"]::before, #explore .theme-link[aria-expanded="true"]::after { display: none; }
+#explore .theme-link:not([aria-expanded="true"]):hover { background: rgba(255, 255, 255, .6); }
+[data-theme-btn], #explore .tband-panel { --t-light: #ffffff; }
+#explore .tband-head p { color: var(--grape); }
+#explore .tband-cards .hl { background: #f5f0eb; box-shadow: none; }
+@media (max-width: 860px) { #explore .theme-link[aria-expanded="true"] { border-radius: 12px; margin-bottom: 0; padding-bottom: 14px; height: 100%; } }
+
+/* ---- themes: white strip, Air key selected box with chevron, Air light spotlight panel (overrides the tab version above) */
+#explore .themes-wrap { background: #ffffff; box-shadow: 0 0 0 100vmax #ffffff; }
+#explore .theme-link[aria-expanded="true"] { background: #8dc2dc; color: var(--grape); box-shadow: none; border-radius: 12px; margin-bottom: 0; padding-bottom: 14px; height: 100%; }
+#explore .theme-link[aria-expanded="true"] span { color: var(--grape); font-weight: 600; }
+#explore .theme-link[aria-expanded="true"]::before { display: none; }
+#explore .theme-link[aria-expanded="true"]::after { display: block; background: #8dc2dc; bottom: -12px; }
+#explore .theme-link:not([aria-expanded="true"]):hover { background: #e2eff6; }
+[data-theme-btn], #explore .tband-panel { --t-light: #e2eff6; }
+#explore .tband-panel { margin-top: 14px; }
+#explore .tband-head p { color: var(--grape); }
+#explore .tband-cards .hl { background: #ffffff; box-shadow: 0 1px 0 rgba(39, 38, 38, .05), 0 3px 0 rgba(39, 38, 38, .025); }
+.hero-line .he { color: #489dbf; }
+@media (max-width: 860px) { #explore .theme-link[aria-expanded="true"]::after { display: none; } }
+
+/* ---- selected theme: Air key outline, not a fill */
+#explore .theme-link[aria-expanded="true"] { background: transparent; box-shadow: inset 0 0 0 2px #8dc2dc; }
+#explore .theme-link[aria-expanded="true"]::before { display: block; background: #ffffff; }
+#explore .theme-link[aria-expanded="true"]::after { bottom: -6px; }
+@media (max-width: 860px) { #explore .theme-link[aria-expanded="true"]::before { display: none; } }
 </style>
 <style id="v-neutral" media="not all">
 /* ===== v5 · Neutral: only White, Alabaster, Linen, Grape and Shadow Grey ===== */
