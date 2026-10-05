@@ -34,7 +34,7 @@
   --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
   --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
   --max: 1400px;   /* wider content area: less empty space at the sides */
-  --gutter: clamp(16px, 4vw, 40px);
+  --gutter: clamp(22px, 6.5vw, 120px);   /* side padding: ~25px on phones, ~70px on laptops, ~95px on wide screens */
   color-scheme: light;
 }
 
@@ -225,7 +225,7 @@ p { margin: 0; }
 .anim .slide:not(.is-active) figcaption h2, .anim .slide:not(.is-active) figcaption p { transition: opacity .2s ease, transform .2s ease; transition-delay: 0s; }
 
 /* side space on large screens: 110px at 1440, 160px from 1500 (content then stays 1180px wide and centres) */
-@media (min-width: 1440px) { :root { --max: none; --gutter: 110px; } }
+/* 1440 override removed: the fluid gutter above now carries up to 1500px */
 @media (min-width: 1500px) { :root { --max: 1500px; --gutter: 160px; } }
 
 /* Reduce motion: same reveals, fades only (no rising, sliding or lifting) */
@@ -1052,6 +1052,23 @@ section:has(> .news) { --band: #ffffff; }
 #explore .explore-head .ic-bold { color: #9e507b; }
 .quote blockquote::before { color: #9e507b; }
 .news .eyebrow { color: #9e507b; }
+
+/* ---- Projects: sector intro sits on its sector's light colour; service intros on Linen light */
+.intro { background: var(--intro-bg, #f5f0eb); border-radius: 20px; border-bottom: 0; padding: clamp(22px, 3vw, 40px); }
+.intro[data-intro="mobility"] { --intro-bg: #f7e9e4; }
+.intro[data-intro="air"] { --intro-bg: #e2eff6; }
+.intro[data-intro="public"] { --intro-bg: #e5f0e7; }
+.intro[data-intro="waste"] { --intro-bg: #f6e8ee; }
+.intro[data-intro="heat"] { --intro-bg: #f4ecdb; }
+.intro[data-intro="governance"] { --intro-bg: #f2e9f3; }
+.intro .intro-copy p { font-size: 18px; font-weight: 600; color: var(--ink); }
+.intro .intro-copy li { font-size: 18px; line-height: 1.5; color: var(--ink); }
+.intro .intro-copy ul { gap: 8px; }
+.intro { grid-template-columns: minmax(min-content, 1fr) minmax(0, 1.25fr); column-gap: clamp(28px, 3vw, 48px); }
+@media (max-width: 860px) { .intro { grid-template-columns: 1fr; } }
+/* intro copy: all 16px, regular weight */
+.intro .intro-copy p, .intro .intro-copy li { font-weight: 400; font-size: 16px; line-height: 1.55; }
+.intro .intro-copy ul { gap: 4px; }
 </style>
 <style id="v-neutral" media="not all">
 /* ===== v5 · Neutral: only White, Alabaster, Linen, Grape and Shadow Grey ===== */
