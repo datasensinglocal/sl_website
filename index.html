@@ -249,8 +249,9 @@ p { margin: 0; }
   box-shadow: 0 4px 0 rgba(30, 22, 34, 0.160), 0 8px 0 rgba(30, 22, 34, 0.125), 0 12px 0 rgba(30, 22, 34, 0.095), 0 16px 0 rgba(30, 22, 34, 0.070), 0 20px 0 rgba(30, 22, 34, 0.050), 0 24px 0 rgba(30, 22, 34, 0.035), 0 28px 0 rgba(30, 22, 34, 0.022), 0 32px 0 rgba(30, 22, 34, 0.013);
 }
 @media (min-width: 761px) {
-  .hero-band { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 68px); }
+  .hero-band { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 68px); will-change: opacity; }
 }
+/* the band (with its shadow) fades out gradually while the slideshow scrolls beneath it (site.js) */
 
 /* Explore boxes: description text matches the Join list (18px) */
 #explore .explore a p { font-size: 18px; line-height: 1.45; max-width: 32ch; }
@@ -261,6 +262,12 @@ p { margin: 0; }
 
 /* "Blending participatory planning + civic tech" in the same berry as "for everyone." */
 .mission p.mission-how.mission-how { color: var(--grape); }
+
+/* slideshow bars: bigger click target, line thickens on hover */
+.bars { bottom: 14px; }
+.bar { height: auto; padding: 18px 0; }
+.bar span { transition: height .15s; }
+.bar:hover span, .bar:focus-visible span { height: 4px; }
 </style>
 <style>
 .hero { padding-top: max(16px, calc(clamp(40px, 6vw, 72px) - 30px)); padding-bottom: clamp(20px, 2.8vw, 36px); }
@@ -3234,6 +3241,23 @@ The project was an investigation into how spatial re-organisation of the snan gh
   window.addEventListener("resize", update);
   if (window.ResizeObserver) new ResizeObserver(update).observe(row);
   update();
+})();
+
+/* Home: the white headline band holds under the header, then fades out gradually as the slideshow scrolls up beneath it */
+(() => {
+  const band = document.querySelector(".hero-band"), show = document.querySelector("[data-carousel]");
+  if (!band || !show) return;
+  let ticking = false;
+  const paint = () => {
+    ticking = false;
+    const y = Math.max(0, window.scrollY), range = (show.offsetHeight || 500) * 0.75;
+    const t = Math.min(1, y / range);
+    band.style.opacity = String(1 - t);
+    band.style.pointerEvents = t > 0.95 ? "none" : "";
+  };
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
+  window.addEventListener("resize", paint);
+  paint();
 })();
 </script>
 <script>
